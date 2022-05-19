@@ -1,0 +1,28 @@
+[submodule "thirdparty/sponza"]
+	path = thirdparty/sponza
+	url = git@github.com:HanetakaChou/sponza.git
+	branch = master
+[submodule "thirdparty/cgltf"]
+	path = thirdparty/cgltf
+	url = git@github.com:HanetakaChou/cgltf.git
+	branch = master
+[submodule "thirdparty/libpng"]
+	path = thirdparty/libpng
+	url = git@github.com:HanetakaChou/libpng.git
+	branch = master
+[submodule "thirdparty/zlib"]
+	path = thirdparty/zlib
+	url = git@github.com:HanetakaChou/zlib.git
+	branch = master
+[submodule "thirdparty/Brioche-Shader-Language"]
+	path = thirdparty/Brioche-Shader-Language
+	url = git@github.com:HanetakaChou/Brioche-Shader-Language.git
+	branch = master
+[submodule "thirdparty/Environment-Lighting"]
+	path = thirdparty/Environment-Lighting
+	url = git@github.com:HanetakaChou/Environment-Lighting.git
+	branch = master
+[submodule "thirdparty/Voxel-Cone-Tracing"]
+	path = thirdparty/Voxel-Cone-Tracing
+	url = git@github.com:HanetakaChou/Voxel-Cone-Tracing.git
+	branch = master

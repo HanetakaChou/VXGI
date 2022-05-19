@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\VXGI\examplecode\GFSDK_NVRHI_D3D11.cpp">
+      <Filter>VXGI\examplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>sample\AmbientOcclusion</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneRenderer.cpp">
+      <Filter>sample\AmbientOcclusion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\Camera.cpp">
+      <Filter>sample\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\DeviceManager11.cpp">
+      <Filter>sample\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\SDKmisc.cpp">
+      <Filter>sample\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Scene.cpp">
+      <Filter>sample</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\VXGI\examplecode\GFSDK_NVRHI_D3D11.h">
+      <Filter>VXGI\examplecode</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneRenderer.h">
+      <Filter>sample\AmbientOcclusion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\include\GFSDK_NVRHI.h">
+      <Filter>VXGI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\include\GFSDK_VXGI.h">
+      <Filter>VXGI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\include\GFSDK_VXGI_MathTypes.h">
+      <Filter>VXGI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\Camera.h">
+      <Filter>sample\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\DeviceManager11.h">
+      <Filter>sample\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\SDKmisc.h">
+      <Filter>sample\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Scene.h">
+      <Filter>sample</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalConstants.h">
+      <Filter>sample\AmbientOcclusion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\examplecode\BindingHelpers.h">
+      <Filter>VXGI\examplecode</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="VXGI">
+      <UniqueIdentifier>{6a6ea090-c72d-4107-945d-f3da31648eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VXGI\examplecode">
+      <UniqueIdentifier>{39ff69c9-2322-4c75-8155-7be74b7cfe31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VXGI\bin">
+      <UniqueIdentifier>{9d89a319-e9d1-4e69-baf2-b6c793f0839b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample">
+      <UniqueIdentifier>{bd6b8a8f-e15d-4d45-88f9-3749e03830fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample\AmbientOcclusion">
+      <UniqueIdentifier>{17fef6e4-181f-4c36-8da9-6126a6287e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample\AmbientOcclusion\shaders">
+      <UniqueIdentifier>{0394b15a-c52e-4e8c-9f4f-c245828c69bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample\thirdparty">
+      <UniqueIdentifier>{76d106a6-e6b9-4fc3-a0c2-d897e3a53773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample\thirdparty\x64">
+      <UniqueIdentifier>{b7e666ed-f8ae-4824-b354-1f8e9d772f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample\thirdparty\x86">
+      <UniqueIdentifier>{d0f91032-b7c3-4ea5-be8a-3d39fe83799a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VXGI\include">
+      <UniqueIdentifier>{46de6efa-32aa-452a-8523-4d1318eb8a31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sample\utils">
+      <UniqueIdentifier>{cefd05c5-4d06-4c43-ba32-e07bd791edfd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\..\VXGI\bin\GFSDK_VXGI_x64.dll">
+      <Filter>VXGI\bin</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\VXGI\bin\GFSDK_VXGI_x86.dll">
+      <Filter>VXGI\bin</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar64.dll">
+      <Filter>sample\thirdparty\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar.dll">
+      <Filter>sample\thirdparty\x86</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\DefaultVS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\AttributesPS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\BlitPS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\CompositingPS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\FullScreenQuadVS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\MyVoxelizationPS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\MyVoxelizationVS.hlsl">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\Shaders.hlsli">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </None>
+    <None Include="shaders\VoxelizationPS.hlsli">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </None>
+    <None Include="shaders\GBufferLoader.hlsli">
+      <Filter>sample\AmbientOcclusion\shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
