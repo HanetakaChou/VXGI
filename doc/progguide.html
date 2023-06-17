@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+    
+    <title>NVIDIA VXGI Programming Guide &mdash; NVIDIA VXGI 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/breathe.css" type="text/css" />
+    <link rel="stylesheet" href="_static/application.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styleguide.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="_static/jquery.storageapi.js"></script>
+    <link rel="top" title="NVIDIA VXGI 1.0 documentation" href="index.html" />
+    <link rel="next" title="Release Notes" href="releasenotes.html" />
+    <link rel="prev" title="NVIDIA VXGI" href="index.html" /> 
+  </head>
+  <body>
+<nav class="navbar navbar-inverse navbar-default">
+  <div class="row">
+      <div class="navbar-brand">
+             <img class="logo" src="_static/developerzone_gameworks_logo.png" alt="Logo"/>
+      </div>
+<div id="searchbox" style="display: none; float:right; padding-top:4px; padding-right:4px">
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</nav>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA VXGI 1.0 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-3 bs-sidenav" style="white-space: nowrap; overflow: auto;">
+<div class="bs-sidebar">
+  <div id="sidebar_toc">
+  <h4>Table Of Contents</h4>
+  <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">NVIDIA VXGI Programming Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-in-the-package">What&#8217;s in the Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#voxelizing-scene-geometry">Voxelizing scene geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#voxelizing-light">Voxelizing light</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ambient-occlusion-vxao-mode">Ambient occlusion (VXAO) mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-voxelization">Debugging voxelization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="releasenotes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="releasenotes.html#what-s-new">What&#8217;s New</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">NVIDIA VXGI</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="releasenotes.html"
+                        title="next chapter">Release Notes</a></p>
+<div id="searchbox" style="display: none">
+  <h4>Quick search</h4>
+    <form class="search form-inline" action="search.html" method="get">
+      <div class="form-group">
+      <input type="text" name="q" class="form-control" />
+      <input type="submit" value="Search" class="btn btn-primary" />
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+  </div>
+    <div class="document col-md-8">
+          <div class="body">
+            
+  <div class="section" id="productname-programming-guide">
+<h1>NVIDIA VXGI Programming Guide<a class="headerlink" href="#productname-programming-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-s-in-the-package">
+<h2>What&#8217;s in the Package<a class="headerlink" href="#what-s-in-the-package" title="Permalink to this headline">¶</a></h2>
+<p><strong>VXGI headers, libraries and DLLs</strong></p>
+<table class="table">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>/VXGI/include/*.h</td>
+<td>VXGI header files</td>
+</tr>
+<tr class="row-even"><td>/VXGI/lib/*.lib</td>
+<td>VXGI library files (compiled with VX 2013)</td>
+</tr>
+<tr class="row-odd"><td>/VXGI/examplecode/...</td>
+<td>Exemplar implementation of the rendering backend
+(a layer between VXGI and D3D11/12/GL)</td>
+</tr>
+<tr class="row-even"><td>/VXGI/bin/GFSDK_VXGI*.dll</td>
+<td>VXGI DLLs (one per platform)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Docs</strong></p>
+<table class="table">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>/doc/...</td>
+<td>Documentation files</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample files</strong></p>
+<table class="table">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>/samples/GFSDK_VXGI_Samples_2015.sln</td>
+<td>The solution file that contains the sample projects</td>
+</tr>
+<tr class="row-even"><td>/samples/AmbientOcclusion/...</td>
+<td>The Ambient Occlusion sample source code</td>
+</tr>
+<tr class="row-odd"><td>/samples/GlobalIllumination/...</td>
+<td>The Global Illumination sample source code</td>
+</tr>
+<tr class="row-even"><td>/samples/media/...</td>
+<td>Scene files used in the samples</td>
+</tr>
+<tr class="row-odd"><td>/samples/nvidia/utils/...</td>
+<td>Helper code for window, 3D device and camera manipulation</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>To start using VXGI with your rendering engine, you should:</p>
+<ol class="arabic simple">
+<li>Add a reference to <tt class="docutils literal"><span class="pre">GFSDK_VXGI_platform.lib</span></tt> where <tt class="docutils literal"><span class="pre">platform</span></tt> is either <tt class="docutils literal"><span class="pre">x86</span></tt> or <tt class="docutils literal"><span class="pre">x64</span></tt>.</li>
+<li>Put <tt class="docutils literal"><span class="pre">GFSDK_VXGI_platform.dll</span></tt> into the output directory of the project. Alternatively, load them explicitly using <tt class="docutils literal"><span class="pre">LoadLibrary</span></tt> WinAPI function.</li>
+<li>Copy or include the files <tt class="docutils literal"><span class="pre">GFSDK_NVRHI_(D3D11/D3D12/OpenGL4).cpp,</span> <span class="pre">.h</span></tt> into the project to get a reference implementation of the NVRHI backend (rendering hardware interface, a D3D/OpenGL proxy). If this reference implementation doesn’t fit your engine, feel free to modify it.</li>
+<li>Use the latest available version of NVAPI library – it’s required for certain features in the backend implementation, specifically SLI support and extended rasterizer state.</li>
+<li>Include <tt class="docutils literal"><span class="pre">GFSDK_VXGI.h</span></tt> to get all VXGI interface declarations.</li>
+<li>Implement <tt class="docutils literal"><span class="pre">VXGI::IErrorCallback</span></tt> to receive error messages from VXGI.</li>
+</ol>
+<p>To get an indirect illumination channel from the VXGI library, the following actions have to be taken by the application:</p>
+<ol class="arabic simple">
+<li>Create a GI object (instance of <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination</span></tt>) by calling <tt class="docutils literal"><span class="pre">VFX_VXGI_CreateGIObject(…)</span></tt>, providing it with the NVRHI backend, error callback, and possibly custom memory allocator.</li>
+<li>Create a shader compiler object (instance of <tt class="docutils literal"><span class="pre">VXGI::IShaderCompiler</span></tt>) by calling <tt class="docutils literal"><span class="pre">VFX_VXGI_CreateShaderCompiler(…)</span></tt>, providing it with the path to <tt class="docutils literal"><span class="pre">D3DCompiler.dll</span></tt>, error callback, custom memory allocator. The compiler is required to create voxelization shaders from source code. If the shaders were compiled earlier and stored somewhere, the compiler is unnecessary and the next step can be skipped.</li>
+<li>Compile voxelization geometry and pixel shaders, at least one of each. The compiler outputs a binary blob, represented by a VXGI::IBlob object.<ol class="loweralpha">
+<li>The voxelization geometry shader can be easily compiled from the shader in the previous stage (that is, vertex shader or domain shader) by calling <tt class="docutils literal"><span class="pre">VXGI::IShaderCompiler::compileVoxelizationGeometryShaderFromVS(…)</span></tt> or <tt class="docutils literal"><span class="pre">VXGI::</span> <span class="pre">IShaderCompiler::compileVoxelizationGeometryShaderFromDS(…)</span></tt>.</li>
+<li>A simple voxelization pixel shader can be created by calling <tt class="docutils literal"><span class="pre">VXGI::IShaderCompiler::compileVoxelizationDefaultPixelShader(…)</span></tt>. This pixel shader is only good for voxelizing solid geometry for opacity, i.e. it doesn’t support alpha testing or emissive materials. Note that this shader also doesn’t expect any custom attributes to be passed through the geometry shader, so if there are some, there will be D3D runtime warnings.</li>
+<li>A more advanced voxelization pixel shader can be created by calling <tt class="docutils literal"><span class="pre">VXGI::IShaderCompiler::compileVoxelizationPixelShader(…)</span></tt>, which compiles custom HLSL source code written by the application developer. The rules that have to be followed by this code are covered in the comments to the declaration of that function.</li>
+</ol>
+</li>
+<li>Create voxelization shader objects from compiler outputs by calling <tt class="docutils literal"><span class="pre">VXGI::IGlobalIlluminaion::loadUserDefinedShaderSet(…)</span></tt>.</li>
+<li>Set voxelization parameters, such as voxel clipmap resolution and scale, number of LODs, voxel formats, using the <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::setVoxelizationParameters(…)</span></tt> function. These parameters can be modified later, at run time, but doing so means that all VXGI resources will be released and created again, so it shouldn’t be done frequently.</li>
+<li>Create a GI tracer (instance of <tt class="docutils literal"><span class="pre">VXGI::IViewTracer</span></tt>) by calling <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::createNewTracer(…)</span></tt>.</li>
+<li>Voxelize the scene using this sequence of calls:<ol class="loweralpha">
+<li><tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::prepareForOpacityVoxelization(…)</span></tt>. This method collects information about which regions of the scene need to be updated on the current frame, and returns <tt class="docutils literal"><span class="pre">performOpacityVoxelization</span></tt> and <tt class="docutils literal"><span class="pre">performEmittanceVoxelization</span></tt> predicates that tell the application whether it should do opacity and emittance voxelization, respectively, on this frame.</li>
+<li>If <tt class="docutils literal"><span class="pre">performOpacityVoxelization</span></tt> is true, voxelize scene geometry as described in the corresponding section of this document.</li>
+<li>Call <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::prepareForEmittanceVoxelization()</span></tt>, unless in VXAO mode which does not use any emittance.</li>
+<li>If <tt class="docutils literal"><span class="pre">performEmittanceVoxelization</span></tt> is true, voxelize emissive or directly lit objects in the same way that is used for opacity voxelization, possibly using different voxelization shaders.</li>
+<li>After voxelization, call <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::finalizeVoxelization()</span></tt> to prepare for cone tracing.</li>
+</ol>
+</li>
+<li>Call <tt class="docutils literal"><span class="pre">VXGI::IViewTracer::computeDiffuseChannel(…)</span></tt> and/or computeSpecularChannel(…), passing the G-buffer surfaces and camera information in the <tt class="docutils literal"><span class="pre">inputBuffers</span></tt> structure</li>
+<li>Combine the diffuse and specular channels with direct lighting.</li>
+</ol>
+</div>
+<div class="section" id="voxelizing-scene-geometry">
+<h2>Voxelizing scene geometry<a class="headerlink" href="#voxelizing-scene-geometry" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note:</strong> to test the NVRHI backend and the basic use of VXGI library without actually voxelizing your geometry by combining pipelines and writing voxelization shaders, which is error-prone, you can call <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::voxelizeTestScene(…)</span></tt> after <tt class="docutils literal"><span class="pre">prepareForOpacityVoxelization(…)</span></tt> and prepareForEmittanceVoxelization(). This call produces a voxel representation of an opaque cube that emits white light. You should be able to observe this cube in the debug visualizations rendered by VXGI::IGlobalIllumination::renderDebug(…), and the cube should illuminate other scene geometry in the results of cone tracing.</p>
+<p>Voxelization is performed by the application using a graphics pipeline state that is combined from state required by VXGI (which includes geometry and pixel shaders and some resources) and state required by the application (vertex shader, possibly tessellation shaders, and resources needed for them and for the user part of the voxelization pixel shader).</p>
+<p>To set the voxel space parameters and regions to update on the current frame, and to begin voxelization, call <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::prepareForOpacityVoxelization(…)</span></tt>. Later, to move from opacity voxelization to emittance voxelization, call <tt class="docutils literal"><span class="pre">prepareForEmittanceVoxelization()</span></tt>.</p>
+<p>After that and before voxelization, you need to get the view matrix that should be applied to your objects to transform them from world space to voxelization coordinate space. Call <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::getVoxelizationViewMatrix(…)</span></tt> for that.</p>
+<p>Also you can get the list of regions that are used by VXGI to clip voxelized geometry – use these regions to cull the meshes in order to improve performance. The regions are returned by function <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::getInvalidatedRegions(…)</span></tt>.</p>
+<p>If the predicate corresponding to voxelization type (performOpacity/EmittanceVoxelization) is true, iterate over scene meshes doing the following for every mesh eligible for voxelization:</p>
+<ol class="arabic simple">
+<li>Fill a <tt class="docutils literal"><span class="pre">VXGI::MaterialInfo</span></tt> structure and call <tt class="docutils literal"><span class="pre">VXGI::IGlobalIllumination::getVoxelizationState(materialInfo,</span> <span class="pre">out</span> <span class="pre">drawCallState)</span></tt> when <tt class="docutils literal"><span class="pre">materialInfo</span></tt> changes. You can call this method for every mesh, but that is inefficient.</li>
+<li>Draw your geometry using one of the following methods:<ol class="loweralpha">
+<li>Apply the state returned by getVoxelizationState – for example, by calling <tt class="docutils literal"><span class="pre">NVRHI::RendererInterfaceD3D11::applyState(…)</span></tt>; add the state that your parts of the pipeline need and draw the geometry using low-level rendering API calls.</li>
+<li>Modify the state object returned by VXGI and add your parts of the pipeline to it; draw the geometry using <tt class="docutils literal"><span class="pre">NVRHI::IRendererInterface::draw/drawIndexed(…)</span></tt>.</li>
+</ol>
+</li>
+</ol>
+<p>When using method (2.1), don’t forget to call <tt class="docutils literal"><span class="pre">NVRHI::RendererInterfaceD3D11::clearState()</span></tt> or any other method that resets the pipeline state in order to remove the state bits used for voxelization and avoid various issues.</p>
+</div>
+<div class="section" id="voxelizing-light">
+<h2>Voxelizing light<a class="headerlink" href="#voxelizing-light" title="Permalink to this headline">¶</a></h2>
+<p>Computing a voxel representation of surfaces that reflect light is done using direct light voxelization. It means that every mesh in the scene is treated as emissive, and its emissive color is computed as reflected diffuse radiance. This method is very similar to additive forward shading, except that the results are written to a 3D texture by VXGI parts of the pixel shader code instead of a regular 2D render target.</p>
+<p>The simplest way to voxelize direct light is to iterate over lights, drawing all potentially lit meshes for each light. In the voxelization pixel shader, calculate the reflected radiance using any material shaders, light parameters and shadowing techniques – just like you would for forward shading. Then pass the computed color to <tt class="docutils literal"><span class="pre">VxgiStoreVoxelizationData</span></tt> function inside the shader and that’s it.</p>
+<p>In order to improve performance, you can render geometry once and iterate over the lights inside the shader, or group lights in some other way based on locality.</p>
+<p>Multi-bounce lighting with VXGI is performed by adding indirect irradiance in the voxelization pixel shader. Indirect irradiance is fetched by <tt class="docutils literal"><span class="pre">VxgiGetIndirectIrradiance(position,</span> <span class="pre">normal)</span></tt> shader function, which performs a lookup into the indirect irradiance map. This map is computed on the previous frame for regions which contained some geometry – but only when <tt class="docutils literal"><span class="pre">VXGI::VoxelizationParameters::enableMultiBounce</span></tt> is set to true. So, the indirect irradiance data is lagging one frame behind the direct lighting.</p>
+</div>
+<div class="section" id="ambient-occlusion-vxao-mode">
+<h2>Ambient occlusion (VXAO) mode<a class="headerlink" href="#ambient-occlusion-vxao-mode" title="Permalink to this headline">¶</a></h2>
+<p>As stated above, VXGI supports a simplified mode of operation whereby only ambient occlusion information is computed, not indirect illumination. This mode is enabled when <tt class="docutils literal"><span class="pre">VXGI::VoxelizationParameters::emittanceFormat</span></tt> is set to NONE.</p>
+<p>The general workflow in VXAO mode is not too different from regular VXGI mode, but it requires fewer steps. Specifically, emittance voxelization is not performed, which means no processing of lights or materials. If voxelized materials are all opaque, not alpha tested, the default voxelization pixel shader can be used, and only one voxelization geometry shader is necessary. The vertex shader should not produce any attributes but position in this case.</p>
+<p>The <tt class="docutils literal"><span class="pre">IViewTracer::computeDiffuseChannel(…)</span></tt> method will produce the ambient channel in this mode, based on depth and normal G-buffer channels. The ambient channel values will be originally within range (0..1] and then multiplied by <tt class="docutils literal"><span class="pre">DiffuseTracingParameters::ambientColor</span></tt>. It also affects diffuse tracing in full VXGI mode, by adding occluded ambient color to indirect illumination.</p>
+</div>
+<div class="section" id="debugging-voxelization">
+<h2>Debugging voxelization<a class="headerlink" href="#debugging-voxelization" title="Permalink to this headline">¶</a></h2>
+<p>Getting voxelization code right can be quite challenging, depending on the engine. For example, when you render objects, the material system may change things like pixel shaders, resources or viewports, which breaks voxelization completely or corrupts the results beyond recognition.
+When that happens, just use your favorite graphics debugger that can capture frames and display graphics state for draw calls. Make sure that all VXGI parts of the state are set correctly. For example, when you voxelize for opacity using a default voxelization pixel shader, and all voxelization settings are at their default values (<tt class="docutils literal"><span class="pre">mapSize</span> <span class="pre">=</span> <span class="pre">64,</span> <span class="pre">opacityDirectionCount</span> <span class="pre">=</span> <span class="pre">6,</span> <span class="pre">stackLevels</span> <span class="pre">=</span> <span class="pre">5</span></tt>), the state should contain the following:</p>
+<ul class="simple">
+<li>Geometry shader: the voxelization GS</li>
+<li>Geometry shader constant buffer (<tt class="docutils literal"><span class="pre">g_VxgiVoxelizationCB</span></tt>) set and filled with reasonable data</li>
+<li>Pixel shader: the voxelization PS</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Relatively easy to recognize by presence of <tt class="docutils literal"><span class="pre">atomic_or</span></tt> instructions</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Pixel shader constant buffers (<tt class="docutils literal"><span class="pre">g_VxgiVoxelizationCB,</span> <span class="pre">g_VxgiVoxelizationMaterialCB</span></tt>) set and filled</li>
+<li>Pixel shader UAVs:<ul>
+<li>64 x 64 x 64 3D texture (uint) for <tt class="docutils literal"><span class="pre">u_AllocationMap</span></tt></li>
+<li>64 x 64 x 403 3D texture (uint) for <tt class="docutils literal"><span class="pre">u_CoverageTextureXYZ_Pos</span></tt></li>
+<li>64 x 64 x 403 3D texture (uint) for <tt class="docutils literal"><span class="pre">u_CoverageTextureXYZ_Neg</span></tt></li>
+</ul>
+</li>
+<li>Pixel shader SRVs:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Structured buffer (1296 x uint4) for <tt class="docutils literal"><span class="pre">t_VoxelizationCoverageMasks</span></tt></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Render targets:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>No color targets</li>
+<li>Square depth target (64x64 8xAA in VXAO mode or 1024x1024 8xAA in VXGI mode, not bound on DX12)</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Rasterizer state:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>No culling</li>
+<li>Scissor enabled</li>
+<li>Multisampling enabled</li>
+<li>Depth clipping disabled</li>
+<li>On DX12, <tt class="docutils literal"><span class="pre">forcedSampleCount</span> <span class="pre">=</span> <span class="pre">8</span></tt></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Depth-stencil state:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Depth disabled (yes, the depth target is not used – it’s bound only to set the multisampling mode)</li>
+<li>Stencil disabled</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Blend state:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Blending disabled (no render targets)</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Viewports:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>15 square viewports in 5 groups by 3</li>
+<li>0-2: (-480…+544, -480…+544, 0…1)</li>
+<li>3-5: (-224…+288, -224…+288, 0…1)</li>
+<li>6-8: (-96…+160, -96…+160, 0…1)</li>
+<li>9-11: (-32…+96, -32…+96, 0…1)</li>
+<li>12-14: (0…+64, 0…+64, 0…1)</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Scissor rectangles:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Depends on the invalidated regions</li>
+<li>When <tt class="docutils literal"><span class="pre">persistentVoxelData</span> <span class="pre">=</span> <span class="pre">false</span></tt>, all 15 scissor rects are (0…64, 0…64).</li>
+</ul>
+</div></blockquote>
+<p>For emittance voxelization, the set of resources bound to the pixel shaders is different. For example, more 3D textures should be bound as UAVs – depending on the <tt class="docutils literal"><span class="pre">emittanceFormat</span></tt>, there can be 4 or 7 UAVs. The irradiance 3D texture can be bound to <tt class="docutils literal"><span class="pre">t_IrradianceMap</span></tt> SRV slot, along with its sampler, if multi-bounce lighting is enabled. And of course, if the custom part of the voxelization pixel shader uses any other resources, like material textures or global engine constant buffers, they should also be properly bound.</p>
+</div>
+</div>
+
+
+          </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="masthead">
+    <div class="row">
+      <ul class="breadcrumb">
+        <li><a href="index.html">NVIDIA VXGI 1.0 documentation</a></li> 
+      </ul>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-boilerplate">
+        <div class="row">
+            <div class="boilerplate">
+                Copyright &copy; 2014, NVIDIA Corporation &nbsp; | &nbsp; <a href="http://www.nvidia.com/object/about-nvidia.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/about-nvidia.html_1&quot;;return this.s_oc?this.s_oc(e):true">About NVIDIA </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/legal_info.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/legal_info.html_1&quot;;return this.s_oc?this.s_oc(e):true">Legal Information </a>&nbsp; | &nbsp; <a href="http://www.nvidia.com/object/privacy_policy.html" onclick="s_objectID=&quot;http://www.nvidia.com/object/privacy_policy.html_1&quot;;return this.s_oc?this.s_oc(e):true">Privacy Policy </a>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+var treestatename = 'GWDocsTreeState';
+var protocol = location.href.split('/')[0].toLowerCase();
+var storage;
+if (protocol.substring(0,4) == 'http') {
+  storage = $.cookieStorage;
+  storage.setPath('/');
+} else {
+  storage = $.localStorage;
+}
+
+if (storage.isEmpty(treestatename)) {
+  storage.set(treestatename, {});
+}
+
+var treestate = storage.get(treestatename);
+
+$.each($("#sidebar_toc ul li"), toc_walker);
+
+function toc_walker(key, value) {
+    var handleSpan = $("<span></span>")
+        .addClass("toc_handle").prependTo(value);
+    handleSpan.attr("id", $(value).closest("div").attr("id") + "." + key);
+
+    if($(value).has("ul li").size() > 0) {
+        var id = handleSpan.attr("id");
+        if (!(id in treestate)) {
+          treestate[id] = false;
+        }
+        handleSpan.addClass("toc_expanded").click(function() {
+            $(this).toggleClass("toc_expanded toc_collapsed").siblings("ul").toggle();
+            treestate[$(this).attr('id')] = $(this).hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        });
+        if(!($(this).hasClass('current') || treestate[id])) {
+            handleSpan.click();
+        }
+        if($(this).hasClass('current')) {
+            treestate[handleSpan.attr('id')] = handleSpan.hasClass('toc_expanded');
+            storage.set(treestatename, treestate);
+        }
+    }
+}
+</script>
+  </body>
+</html>

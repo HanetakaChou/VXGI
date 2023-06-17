@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32126.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFSDK_VXGI_Sample_AmbientOcclusion", "AmbientOcclusion\GFSDK_VXGI_Sample_AmbientOcclusion_2015.vcxproj", "{0C9BD536-0E1B-4A43-B741-1D450A680E42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443} = {6B33CC18-5A72-4D8A-BFBE-0BDC21891443}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFSDK_VXGI_Sample_GlobalIllumination", "GlobalIllumination\GFSDK_VXGI_Sample_GlobalIllumination_2015.vcxproj", "{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443} = {6B33CC18-5A72-4D8A-BFBE-0BDC21891443}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3dcompiler_hook", "d3dcompiler_hook\d3dcompiler_hook.vcxproj", "{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug-D3D11|Win32 = Debug-D3D11|Win32
+		Debug-D3D11|x64 = Debug-D3D11|x64
+		Debug-GL4|Win32 = Debug-GL4|Win32
+		Debug-GL4|x64 = Debug-GL4|x64
+		Release-D3D11|Win32 = Release-D3D11|Win32
+		Release-D3D11|x64 = Release-D3D11|x64
+		Release-GL4|Win32 = Release-GL4|Win32
+		Release-GL4|x64 = Release-GL4|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-D3D11|Win32.ActiveCfg = Debug-D3D11|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-D3D11|Win32.Build.0 = Debug-D3D11|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-D3D11|x64.ActiveCfg = Debug-D3D11|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-D3D11|x64.Build.0 = Debug-D3D11|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-GL4|Win32.ActiveCfg = Debug-GL4|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-GL4|Win32.Build.0 = Debug-GL4|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-GL4|x64.ActiveCfg = Debug-GL4|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Debug-GL4|x64.Build.0 = Debug-GL4|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-D3D11|Win32.ActiveCfg = Release-D3D11|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-D3D11|Win32.Build.0 = Release-D3D11|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-D3D11|x64.ActiveCfg = Release-D3D11|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-D3D11|x64.Build.0 = Release-D3D11|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-GL4|Win32.ActiveCfg = Release-GL4|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-GL4|Win32.Build.0 = Release-GL4|Win32
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-GL4|x64.ActiveCfg = Release-GL4|x64
+		{0C9BD536-0E1B-4A43-B741-1D450A680E42}.Release-GL4|x64.Build.0 = Release-GL4|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-D3D11|Win32.ActiveCfg = Debug-D3D11|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-D3D11|Win32.Build.0 = Debug-D3D11|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-D3D11|x64.ActiveCfg = Debug-D3D11|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-D3D11|x64.Build.0 = Debug-D3D11|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-GL4|Win32.ActiveCfg = Debug-GL4|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-GL4|Win32.Build.0 = Debug-GL4|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-GL4|x64.ActiveCfg = Debug-GL4|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Debug-GL4|x64.Build.0 = Debug-GL4|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-D3D11|Win32.ActiveCfg = Release-D3D11|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-D3D11|Win32.Build.0 = Release-D3D11|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-D3D11|x64.ActiveCfg = Release-D3D11|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-D3D11|x64.Build.0 = Release-D3D11|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-GL4|Win32.ActiveCfg = Release-GL4|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-GL4|Win32.Build.0 = Release-GL4|Win32
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-GL4|x64.ActiveCfg = Release-GL4|x64
+		{F1FEA0BC-1B34-4D3D-9A20-B5B5F627CA0E}.Release-GL4|x64.Build.0 = Release-GL4|x64
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Debug-D3D11|Win32.ActiveCfg = Debug|Win32
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Debug-D3D11|Win32.Build.0 = Debug|Win32
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Debug-D3D11|x64.ActiveCfg = Debug|x64
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Debug-D3D11|x64.Build.0 = Debug|x64
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Debug-GL4|Win32.ActiveCfg = Debug|Win32
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Debug-GL4|x64.ActiveCfg = Debug|x64
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Release-D3D11|Win32.ActiveCfg = Release|Win32
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Release-D3D11|Win32.Build.0 = Release|Win32
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Release-D3D11|x64.ActiveCfg = Release|x64
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Release-D3D11|x64.Build.0 = Release|x64
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Release-GL4|Win32.ActiveCfg = Release|Win32
+		{6B33CC18-5A72-4D8A-BFBE-0BDC21891443}.Release-GL4|x64.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E08E8D0-C4C1-4F1C-901C-B9AF75083C3C}
+	EndGlobalSection
+EndGlobal

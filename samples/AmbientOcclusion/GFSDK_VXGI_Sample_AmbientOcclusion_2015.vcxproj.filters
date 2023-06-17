@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\VXGI\examplecode\GFSDK_NVRHI_OpenGL4.cpp">
+      <Filter>VXGI\examplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>samples\AmbientOcclusion</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>samples\AmbientOcclusion</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneRenderer.cpp">
+      <Filter>samples\AmbientOcclusion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VXGI\examplecode\GFSDK_NVRHI_D3D11.cpp">
+      <Filter>VXGI\examplecode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\glad\src\glad_wgl.c">
+      <Filter>samples\thirdparty\glad\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\glad\src\glad.c">
+      <Filter>samples\thirdparty\glad\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\Camera.cpp">
+      <Filter>samples\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\DeviceManager11.cpp">
+      <Filter>samples\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\DeviceManagerGL4.cpp">
+      <Filter>samples\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\SDKmisc.cpp">
+      <Filter>samples\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene.h">
+      <Filter>samples\AmbientOcclusion</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneRenderer.h">
+      <Filter>samples\AmbientOcclusion</Filter>
+    </ClInclude>
+    <ClInclude Include="BindingHelpers.h">
+      <Filter>samples\AmbientOcclusion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\examplecode\GFSDK_NVRHI_OpenGL4.h">
+      <Filter>VXGI\examplecode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\examplecode\GFSDK_NVRHI_D3D11.h">
+      <Filter>VXGI\examplecode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\glad\include\KHR\khrplatform.h">
+      <Filter>samples\thirdparty\glad\include\KHR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\glad\include\glad\glad.h">
+      <Filter>samples\thirdparty\glad\include\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\glad\include\glad\glad_wgl.h">
+      <Filter>samples\thirdparty\glad\include\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\Camera.h">
+      <Filter>samples\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\DeviceManager11.h">
+      <Filter>samples\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\DeviceManagerGL4.h">
+      <Filter>samples\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\include\GFSDK_NVRHI.h">
+      <Filter>VXGI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\include\GFSDK_VXGI.h">
+      <Filter>VXGI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VXGI\include\GFSDK_VXGI_MathTypes.h">
+      <Filter>VXGI\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\SDKmisc.h">
+      <Filter>samples\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="VXGI">
+      <UniqueIdentifier>{6a6ea090-c72d-4107-945d-f3da31648eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VXGI\examplecode">
+      <UniqueIdentifier>{27c247a6-b406-4b78-bd4b-78b9c264c6b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples">
+      <UniqueIdentifier>{04c05b96-b226-43b6-ae5d-8f36556c2340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\AmbientOcclusion">
+      <UniqueIdentifier>{083202c2-2d7d-443c-b01c-e00bdda7b4ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\utils">
+      <UniqueIdentifier>{92447fc8-cf12-4829-975e-9cc5a1327ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty">
+      <UniqueIdentifier>{c6c7eca8-ebc1-4abc-ba74-a52fe6b7ca2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\x64">
+      <UniqueIdentifier>{d0b32bb1-eab5-4e62-8c1e-46a4895c97f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\x86">
+      <UniqueIdentifier>{ff3fe56b-9f43-45fc-84cf-971c501a9fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VXGI\bin">
+      <UniqueIdentifier>{f75421c8-91ac-4796-b756-ccf1adae5a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\AmbientOcclusion\shaders">
+      <UniqueIdentifier>{a4dd3a58-686c-4b4c-b6a3-a2a76adf5c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\glad">
+      <UniqueIdentifier>{3b2d0d7d-b50a-4fde-8dd4-42727ef5425b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\glad\src">
+      <UniqueIdentifier>{06b0ed46-3536-40c2-9878-021cb823874e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\glad\include">
+      <UniqueIdentifier>{6595973b-5af0-49b9-a90f-cce56126bc5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\glad\include\glad">
+      <UniqueIdentifier>{e2f66e88-5365-45af-9c62-df3bd30f1c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\thirdparty\glad\include\KHR">
+      <UniqueIdentifier>{4842be44-33e2-411d-adaf-8a1bdb41f1b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VXGI\include">
+      <UniqueIdentifier>{1e09e02b-f124-44d5-9ce6-ba97607dc510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="samples\AmbientOcclusion\shaders\GL">
+      <UniqueIdentifier>{d7745557-b6b7-4981-bb3b-3e70eaab5bdb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar.dll">
+      <Filter>samples\thirdparty\x86</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\assimp\lib\x86\assimp.dll">
+      <Filter>samples\thirdparty\x86</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\FreeImage\x86\FreeImage.dll">
+      <Filter>samples\thirdparty\x86</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar64.dll">
+      <Filter>samples\thirdparty\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\assimp\lib\x64\assimp.dll">
+      <Filter>samples\thirdparty\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\thirdparty\FreeImage\x64\FreeImage.dll">
+      <Filter>samples\thirdparty\x64</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\VXGI\bin\GFSDK_VXGI_x64.dll">
+      <Filter>VXGI\bin</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\VXGI\bin\GFSDK_VXGI_x86.dll">
+      <Filter>VXGI\bin</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\Shaders.hlsli">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </None>
+    <None Include="shaders\GL\AttributesPS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+    <None Include="shaders\GL\BlitPS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+    <None Include="shaders\GL\CompositingPS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+    <None Include="shaders\GL\DefaultVS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+    <None Include="shaders\GL\FullScreenQuadVS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+    <None Include="shaders\GL\VoxelizationVS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+    <None Include="shaders\VoxelizationPS.hlsli">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </None>
+    <None Include="shaders\GL\VoxelizationPS.glsl">
+      <Filter>samples\AmbientOcclusion\shaders\GL</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\AttributesPS.hlsl">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\BlitPS.hlsl">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\CompositingPS.hlsl">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\DefaultVS.hlsl">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\FullScreenQuadVS.hlsl">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\VoxelizationVS.hlsl">
+      <Filter>samples\AmbientOcclusion\shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
