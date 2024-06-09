@@ -108,7 +108,10 @@ HRESULT CreateVXGIObject()
 
     VXGI::VoxelizationParameters voxelizationParams;
     voxelizationParams.emittanceFormat = VXGI::EmittanceFormat::NONE; // Enable VXAO mode
+    voxelizationParams.opacityDirectionCount = VXGI::OpacityDirections::THREE_DIMENSIONAL;
     voxelizationParams.mapSize = 128;
+    // The **VXGI::VoxelizationParameters::persistentVoxelData** is always set to **false** in the **NVIDIA Unreal Engine 4 Fork**.
+    voxelizationParams.persistentVoxelData = false;
     voxelizationParams.enableNvidiaExtensions = false;
     voxelizationParams.enableGeometryShaderPassthrough = false;
 

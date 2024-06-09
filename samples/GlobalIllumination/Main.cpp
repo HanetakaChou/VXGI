@@ -274,10 +274,11 @@ class MainVisualController : public IVisualController
         static VXGI::VoxelizationParameters previousParams;
 
         VXGI::VoxelizationParameters voxelizationParams;
-        voxelizationParams.opacityDirectionCount = VXGI::OpacityDirections::SIX_DIMENSIONAL;
+        voxelizationParams.opacityDirectionCount = VXGI::OpacityDirections::THREE_DIMENSIONAL;
         voxelizationParams.mapSize = 128;
         voxelizationParams.enableMultiBounce = g_bEnableMultiBounce;
-        voxelizationParams.persistentVoxelData = !g_bEnableMultiBounce;
+        // The **VXGI::VoxelizationParameters::persistentVoxelData** is always set to **false** in the **NVIDIA Unreal Engine 4 Fork**.
+        voxelizationParams.persistentVoxelData = false;
         voxelizationParams.emittanceFormat = g_EmittanceFormat;
         voxelizationParams.enableNvidiaExtensions = false;
         voxelizationParams.enableGeometryShaderPassthrough = false;
