@@ -31,8 +31,8 @@
     <ClCompile Include="..\utils\DeviceManagerGL4.cpp">
       <Filter>samples\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\utils\SDKmisc.cpp">
-      <Filter>samples\utils</Filter>
+    <ClCompile Include="..\assets\cornell_box.cpp">
+      <Filter>samples\assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,8 +78,8 @@
     <ClInclude Include="..\..\VXGI\include\GFSDK_VXGI_MathTypes.h">
       <Filter>VXGI\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\utils\SDKmisc.h">
-      <Filter>samples\utils</Filter>
+    <ClInclude Include="..\assets\cornell_box.h">
+      <Filter>samples\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,24 +134,15 @@
     <Filter Include="samples\AmbientOcclusion\shaders\GL">
       <UniqueIdentifier>{d7745557-b6b7-4981-bb3b-3e70eaab5bdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="samples\assets">
+      <UniqueIdentifier>{311b6923-9b54-4e26-8ff9-b41b051efd58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar.dll">
       <Filter>samples\thirdparty\x86</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\assimp\lib\x86\assimp.dll">
-      <Filter>samples\thirdparty\x86</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\FreeImage\x86\FreeImage.dll">
-      <Filter>samples\thirdparty\x86</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar64.dll">
-      <Filter>samples\thirdparty\x64</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\assimp\lib\x64\assimp.dll">
-      <Filter>samples\thirdparty\x64</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\FreeImage\x64\FreeImage.dll">
       <Filter>samples\thirdparty\x64</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\..\VXGI\bin\GFSDK_VXGI_x64.dll">

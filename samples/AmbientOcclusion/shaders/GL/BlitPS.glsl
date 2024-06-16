@@ -3,8 +3,7 @@ layout(row_major) uniform;
 
 layout(binding = 0) uniform sampler2D SourceTexture;
 
-in vec4 gl_FragCoord;
-out vec4 f_color;
+layout(location = 0) out vec4 f_color;
 
 void main()
 {

@@ -15,8 +15,7 @@ cbuffer GlobalConstants : register(b0)
     float4x4 g_ViewProjMatrix;
     float4x4 g_ViewProjMatrixInv;
     float4x4 g_LightViewProjMatrix;
-    float4 g_LightDirection;
-    float4 g_DiffuseColor;
+    float4 g_LightPos;
     float4 g_LightColor;
     float4 g_AmbientColor;
     float g_rShadowMapSize;
@@ -24,13 +23,17 @@ cbuffer GlobalConstants : register(b0)
     uint g_EnableIndirectSpecular;
 }
 
+cbuffer MaterialConstants : register(b1)
+{
+    float4 g_BaseColor;
+    float g_Metallic;
+    float g_Roughness;
+};
+
 struct PS_Input
 {
     float4 position : SV_Position;
-    float2 texCoord : TEXCOORD;
     float3 normal   : NORMAL;
-    float3 tangent  : TANGENT;
-    float3 binormal : BINORMAL;
     float3 positionWS : WSPOSITION;
 };
 
@@ -54,80 +57,45 @@ static const float2 g_SamplePositions[] = {
     float2(0.08265103f, -0.8939569f)
 };
 
-Texture2D DiffuseTexture    : register(t0);
-Texture2D SpecularTexture   : register(t1);
-Texture2D NormalTexture     : register(t2);
-
 SamplerState DefaultSampler : register(s0);
-
-#define USE_FLAT_NORMALS 0
 
 struct VS_Input
 {
     float3 position : POSITION;
     float3 normal   : NORMAL;
-    float2 texCoord : TEXCOORD;
-    float3 tangent  : TANGENT;
-    float3 binormal : BINORMAL;
 };
 
 PS_Input DefaultVS(VS_Input input)
 {
     PS_Input output;
 
-    output.position = mul(float4(input.position.xyz, 1.0f), g_ViewProjMatrix);
-    output.positionWS = input.position.xyz;
+    float4 worldPos = float4(input.position.xyz, 1.0f);
+    output.position = mul(worldPos, g_ViewProjMatrix);
+    output.positionWS = worldPos.xyz;
 
-    output.texCoord = input.texCoord;
     output.normal = input.normal;
-    output.tangent = input.tangent;
-    output.binormal = input.binormal;
 
     return output;
 } 
 
-float3 GetNormal(PS_Input input)
-{
-#if USE_FLAT_NORMALS
-    float3 normal = normalize(cross(ddx(input.positionWS.xyz), ddy(input.positionWS.xyz)));
-#else
-    float3 pixelNormal = NormalTexture.Sample(DefaultSampler, input.texCoord).xyz;
-    float3 normal = normalize(input.normal);
-
-    if(pixelNormal.z)
-    {
-        float3 tangent = normalize(input.tangent);
-        float3 binormal = normalize(input.binormal);
-        float3x3 TangentMatrix = float3x3(tangent, binormal, normal);
-        normal = normalize(mul(pixelNormal * 2 - 1, TangentMatrix));
-    }
-#endif
-
-    return normal;
-}
-
 struct PS_Attributes
 {
-    float4 albedo : SV_Target0;
-    float4 normal : SV_Target1;
+    float4 GBufferA : SV_Target1;
+    float4 GBufferC : SV_Target0;
 };
 
 PS_Attributes AttributesPS(PS_Input input)
 {
+    float3 normal = normalize(input.normal);
+    float roughness = g_Roughness;
+    float3 base_color = g_BaseColor.xyz;
+    float metallic = g_Metallic;
+
     PS_Attributes output;
-
-    float4 diffuseColor;
-    diffuseColor.rgb = DiffuseTexture.Sample(DefaultSampler, input.texCoord).rgb;
-    diffuseColor.a = SpecularTexture.Sample(DefaultSampler, input.texCoord).r;
-    float3 normal = GetNormal(input);
-    float roughness = (diffuseColor.a > 0) ? 0.5 : 0;
-
-    output.albedo = diffuseColor;
-    output.normal = float4(normal.xyz, roughness);
-
+    output.GBufferA = float4(normal, roughness);
+    output.GBufferC = float4(base_color, metallic);
     return output;
 }
-
 
 struct FullScreenQuadOutput
 {
@@ -156,8 +124,8 @@ float4 BlitPS(FullScreenQuadOutput IN): SV_Target
 }
 
 
-Texture2D t_GBufferAlbedo     : register(t0);
-Texture2D t_GBufferNormal     : register(t1);
+Texture2D t_GBufferGBufferA   : register(t1);
+Texture2D t_GBufferGBufferC   : register(t0);
 Texture2D t_GBufferDepth      : register(t2);
 Texture2D t_IndirectDiffuse   : register(t3);
 Texture2D t_IndirectSpecular  : register(t4);
@@ -165,12 +133,15 @@ Texture2D t_ShadowMap         : register(t5);
 
 SamplerComparisonState ShadowSampler : register(s0);
 
-float GetShadow(float3 fragmentPos)
+float GetShadow(float3 worldPos)
 {
-    fragmentPos -= g_LightDirection.xyz * 1.0f;
+    float3 light_direction = normalize(g_LightPos.xyz - worldPos);
 
-    float4 clipPos = mul(float4(fragmentPos, 1.0f), g_LightViewProjMatrix);
+    worldPos += light_direction * 1.0f;
 
+    float4 clipPos = mul(float4(worldPos, 1.0f), g_LightViewProjMatrix);
+
+    [branch]
     if (abs(clipPos.x) > clipPos.w || abs(clipPos.y) > clipPos.w || clipPos.z <= 0)
     {
         return 0;
@@ -217,22 +188,40 @@ float3 ConvertToLDR(float3 color)
 
 float4 CompositingPS(FullScreenQuadOutput IN): SV_Target
 {
-    float4 albedo = t_GBufferAlbedo[IN.position.xy];
-    float3 normal = t_GBufferNormal[IN.position.xy].xyz;
+    float4 GBufferA = t_GBufferGBufferA[IN.position.xy];
+    float4 GBufferC = t_GBufferGBufferC[IN.position.xy];
+
+    float3 normal = GBufferA.xyz;
+    float roughness = GBufferA.w;
+    float3 base_color = GBufferC.xyz;
+    float metallic = GBufferC.w;
+
+    // \[Bhatia 2017\] [Saurabh Bhatia. "glTF 2.0: PBR Materials." GTC 2017.](https://www.khronos.org/assets/uploads/developers/library/2017-gtc/glTF-2.0-and-PBR-GTC_May17.pdf)
+    float3 specular_color_dielectric = float3(0.04, 0.04, 0.04);
+    float3 specular_color = lerp(specular_color_dielectric, base_color, metallic);
+    float3 diffuse_color = base_color - specular_color;
+
+    float depth = t_GBufferDepth[IN.position.xy].r;
+
+    float4 worldPosV4 = mul(float4(IN.clipSpacePos.xy, depth, 1), g_ViewProjMatrixInv);
+    float3 worldPos = worldPosV4.xyz /= worldPosV4.w;
+
     float4 indirectDiffuse = g_EnableIndirectDiffuse ? t_IndirectDiffuse[IN.position.xy] : 0;
     float3 indirectSpecular = g_EnableIndirectSpecular ? t_IndirectSpecular[IN.position.xy].rgb : 0;
-    float z = t_GBufferDepth[IN.position.xy].x;
 
-    float4 worldPos = mul(float4(IN.clipSpacePos.xy, z, 1), g_ViewProjMatrixInv);
-    worldPos.xyz /= worldPos.w;
+    float3 radiance = float3(0.0, 0.0, 0.0);
 
-    float shadow = GetShadow(worldPos.xyz);
-    float NdotL = saturate(-dot(normal.xyz, g_LightDirection.xyz));
+    float3 light_direction = normalize(g_LightPos.xyz - worldPos.xyz);
+    float NdotL = dot(normal, light_direction);
+    [branch]
+    if (NdotL > 0.0)
+    {
+        float shadow = GetShadow(worldPos);
+        radiance += diffuse_color * g_LightColor.rgb * shadow * NdotL;
+    }
 
-    float3 result = albedo.rgb * (g_LightColor.rgb * (shadow * NdotL) + lerp(g_AmbientColor.rgb, indirectDiffuse.rgb, indirectDiffuse.a)) 
-                  + albedo.a * indirectSpecular.rgb;
+    radiance += diffuse_color * lerp(g_AmbientColor.rgb, indirectDiffuse.rgb, indirectDiffuse.a);
+    radiance += roughness * indirectSpecular.rgb;
 
-    result = ConvertToLDR(result);
-
-    return float4(result, 1);
+    return float4(ConvertToLDR(radiance), 1);
 }

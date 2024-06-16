@@ -149,7 +149,7 @@ public:
 
     // Functions to change camera matrices
     virtual void Reset();
-    virtual void SetViewParams(XMVECTOR vEyePt, XMVECTOR vLookatPt);
+    virtual void SetViewParams(XMVECTOR vEyePt, XMVECTOR vLookatPt, XMVECTOR vUp);
     virtual void SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane);
 
     // Functions to change behavior
@@ -279,8 +279,10 @@ protected:
 
     XMVECTOR m_vDefaultEye;    // Default camera eye position
     XMVECTOR m_vDefaultLookAt; // Default LookAt position
-    XMVECTOR m_vEye;           // Camera eye position
-    XMVECTOR m_vLookAt;        // LookAt position
+    XMVECTOR m_vDefaultUp;
+    XMVECTOR m_vEye;    // Camera eye position
+    XMVECTOR m_vLookAt; // LookAt position
+    XMVECTOR m_vUp;
     float m_fCameraYawAngle;   // Yaw angle of camera
     float m_fCameraPitchAngle; // Pitch angle of camera
 
@@ -373,7 +375,7 @@ public:
     // Functions to change behavior
     virtual void SetDragRect(RECT &rc);
     void Reset();
-    void SetViewParams(XMVECTOR vEyePt, XMVECTOR vLookatPt);
+    void SetViewParams(XMVECTOR vEyePt, XMVECTOR vLookatPt, XMVECTOR vUp);
     void SetButtonMasks(int nRotateModelButtonMask = MOUSE_LEFT_BUTTON, int nZoomButtonMask = MOUSE_WHEEL,
                         int nRotateCameraButtonMask = MOUSE_RIGHT_BUTTON)
     {

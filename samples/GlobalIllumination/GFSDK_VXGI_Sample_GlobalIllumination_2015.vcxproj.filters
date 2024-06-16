@@ -31,8 +31,8 @@
     <ClCompile Include="..\thirdparty\glad\src\glad_wgl.c">
       <Filter>samples\thirdparty\glad\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\utils\SDKmisc.cpp">
-      <Filter>samples\utils</Filter>
+    <ClCompile Include="..\assets\cornell_box.cpp">
+      <Filter>samples\assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,8 +78,8 @@
     <ClInclude Include="..\..\VXGI\include\GFSDK_VXGI_MathTypes.h">
       <Filter>VXGI\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\utils\SDKmisc.h">
-      <Filter>samples\utils</Filter>
+    <ClInclude Include="..\assets\cornell_box.h">
+      <Filter>samples\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,25 +134,16 @@
     <Filter Include="samples\GlobalIllumination\shaders\GL">
       <UniqueIdentifier>{492fbd3f-1198-41fe-894e-76ad8ab5e769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="samples\assets">
+      <UniqueIdentifier>{86d3414c-c550-44be-8c10-dcd8d3a8017f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\thirdparty\assimp\lib\x64\assimp.dll">
-      <Filter>samples\thirdparty\x64</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar64.dll">
       <Filter>samples\thirdparty\x64</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\thirdparty\AntTweakBar\lib\AntTweakBar.dll">
       <Filter>samples\thirdparty\x86</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\assimp\lib\x86\assimp.dll">
-      <Filter>samples\thirdparty\x86</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\FreeImage\x86\FreeImage.dll">
-      <Filter>samples\thirdparty\x86</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="..\thirdparty\FreeImage\x64\FreeImage.dll">
-      <Filter>samples\thirdparty\x64</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="..\..\VXGI\bin\GFSDK_VXGI_x64.dll">
       <Filter>VXGI\bin</Filter>

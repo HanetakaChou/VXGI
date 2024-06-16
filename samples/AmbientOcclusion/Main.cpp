@@ -10,7 +10,6 @@
 
 #include "SceneRenderer.h"
 #include "Camera.h"
-#include "SDKmisc.h"
 #include <AntTweakBar.h>
 
 #if USE_D3D11
@@ -45,10 +44,14 @@ VXGI::IGlobalIllumination *g_pGI = NULL;
 VXGI::IShaderCompiler *g_pGICompiler = NULL;
 VXGI::IViewTracer *g_pGITracer = NULL;
 
-static float g_fCameraClipNear = 1.0f;
-static float g_fCameraClipFar = 10000.0f;
-static float g_fClipmapRange = 512.0f;
-static float g_fAmbientRange = 512.0f;
+static float g_fCameraFOV = 1.0247777777F; // (static_cast<double>(XM_PIDIV2) - std::atan(1.7777777)) * 2.0
+static float g_fCameraAspectRatio = 1.7777777F;
+static float g_fCameraClipNear = 1.0F;
+static float g_fCameraClipFar = 1000.0F;
+static float g_fVoxelSize = 1.0F;
+static int g_nMapSize = 128;
+static float g_fClipmapRange = g_fVoxelSize * float(g_nMapSize) * 0.5F;
+static float g_fAmbientRange = g_fClipmapRange;
 static bool g_bEnableVXAO = true;
 static bool g_bVisualizeAO = false;
 static bool g_bRenderHUD = true;
@@ -109,7 +112,7 @@ HRESULT CreateVXGIObject()
     VXGI::VoxelizationParameters voxelizationParams;
     voxelizationParams.emittanceFormat = VXGI::EmittanceFormat::NONE; // Enable VXAO mode
     voxelizationParams.opacityDirectionCount = VXGI::OpacityDirections::THREE_DIMENSIONAL;
-    voxelizationParams.mapSize = 128;
+    voxelizationParams.mapSize = g_nMapSize;
     // The **VXGI::VoxelizationParameters::persistentVoxelData** is always set to **false** in the **NVIDIA Unreal Engine 4 Fork**.
     voxelizationParams.persistentVoxelData = false;
     voxelizationParams.enableNvidiaExtensions = false;
@@ -434,11 +437,7 @@ class MainVisualController : public IVisualController
         if (FAILED(CreateVXGIObject()))
             return E_FAIL;
 
-        char strFileName[512];
-        if (FAILED(DXUTFindDXSDKMediaFileCch(strFileName, 512, "Sponza\\SponzaNoFlag.obj")))
-            return E_FAIL;
-
-        if (FAILED(g_pSceneRenderer->LoadMesh(strFileName)))
+        if (FAILED(g_pSceneRenderer->LoadMesh("Sponza\\SponzaNoFlag.obj")))
             return E_FAIL;
 
         if (FAILED(g_pSceneRenderer->AllocateResources(g_pGI, g_pGICompiler)))
@@ -481,8 +480,7 @@ class MainVisualController : public IVisualController
         g_pSceneRenderer->AllocateViewDependentResources(width, height, sampleCount);
 
         // Setup the camera's projection parameters
-        float fAspectRatio = width / (FLOAT)height;
-        g_Camera.SetProjParams(XM_PIDIV4, fAspectRatio, g_fCameraClipNear, g_fCameraClipFar);
+        g_Camera.SetProjParams(g_fCameraFOV, g_fCameraAspectRatio, g_fCameraClipNear, g_fCameraClipFar);
     }
 };
 
@@ -523,11 +521,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         return 1;
     }
 
-    XMVECTOR eyePt = XMVectorSet(0.0f, 100.0f, 50.0f, 0);
-    XMVECTOR lookAtPt = XMVectorSet(-100.0f, 100.0f, 50.0f, 0);
-    g_Camera.SetViewParams(eyePt, lookAtPt);
-    g_Camera.SetScalers(0.005f, 500.0f);
-    g_Camera.SetRotateButtons(true, false, false, false);
+    XMVECTOR eyePt = XMVectorSet(0.0F, 100.F, 32.0F, 0.0F);
+    XMVECTOR lookAtPt = XMVectorSet(0.0F, 0.0F, 32.0F, 0.0F);
+    XMVECTOR up = XMVectorSet(0.0F, 0.0F, 1.0F, 0.0F);
+    g_Camera.SetViewParams(eyePt, lookAtPt, up);
+    g_Camera.SetProjParams(g_fCameraFOV, g_fCameraAspectRatio, g_fCameraClipNear, g_fCameraClipFar);
 
     if (g_bInitialized)
         g_DeviceManager->MessageLoop();

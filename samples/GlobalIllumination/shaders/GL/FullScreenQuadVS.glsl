@@ -1,8 +1,6 @@
 char const g_FullScreenQuadVS[] = R"(#version 450 core
 layout(row_major) uniform;
 
-// in int gl_VertexID;
-
 out gl_PerVertex
 {
     vec4 gl_Position;

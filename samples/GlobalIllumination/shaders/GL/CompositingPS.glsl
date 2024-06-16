@@ -6,8 +6,7 @@ layout(std140, binding = 0) uniform GlobalConstants
     mat4x4 g_ViewProjMatrix;
     mat4x4 g_ViewProjMatrixInv;
     mat4x4 g_LightViewProjMatrix;
-    vec4 g_LightDirection;
-    vec4 g_DiffuseColor;
+    vec4 g_LightPos;
     vec4 g_LightColor;
     vec4 g_AmbientColor;
     float g_rShadowMapSize;
@@ -15,16 +14,16 @@ layout(std140, binding = 0) uniform GlobalConstants
     uint g_EnableIndirectSpecular;
 };
 
-layout(binding = 0) uniform sampler2D t_GBufferAlbedo;
-layout(binding = 1) uniform sampler2D t_GBufferNormal;
+layout(binding = 1) uniform sampler2D t_GBufferGBufferA;
+layout(binding = 0) uniform sampler2D t_GBufferGBufferC;
 layout(binding = 2) uniform sampler2D t_GBufferDepth;
 layout(binding = 3) uniform sampler2D t_IndirectDiffuse;
 layout(binding = 4) uniform sampler2D t_IndirectSpecular;
 layout(binding = 5) uniform sampler2DShadow t_ShadowMap;
 
-in vec4 gl_FragCoord;
 in vec2 v_clipSpacePos;
-out vec4 f_color;
+
+layout(location = 0) out vec4 f_color;
 
 const vec2 g_SamplePositions[] = {
     // Poisson disk with 16 points
@@ -46,11 +45,13 @@ const vec2 g_SamplePositions[] = {
     vec2(0.08265103f, -0.8939569f)
 };
 
-float GetShadow(vec3 fragmentPos)
+float GetShadow(vec3 worldPos)
 {
-    fragmentPos -= g_LightDirection.xyz * 1.0f;
+    vec3 light_direction = normalize(g_LightPos.xyz - worldPos);
 
-    vec4 clipPos = vec4(fragmentPos, 1.0f) * g_LightViewProjMatrix;
+    worldPos += light_direction * 1.0f;
+
+    vec4 clipPos = vec4(worldPos, 1.0f) * g_LightViewProjMatrix;
 
     if (abs(clipPos.x) > clipPos.w || abs(clipPos.y) > clipPos.w || abs(clipPos.z) > clipPos.w)
     {
@@ -100,23 +101,40 @@ void main()
 {
     ivec2 pixelPos = ivec2(gl_FragCoord.xy);
 
-    vec4 albedo = texelFetch(t_GBufferAlbedo, pixelPos, 0);
-    vec3 normal = texelFetch(t_GBufferNormal, pixelPos, 0).xyz;
-    vec4 indirectDiffuse = bool(g_EnableIndirectDiffuse) ? texelFetch(t_IndirectDiffuse, pixelPos, 0) : vec4(0);
-    vec3 indirectSpecular = bool(g_EnableIndirectSpecular) ? texelFetch(t_IndirectSpecular, pixelPos, 0).rgb : vec3(0);
+    vec4 GBufferA = texelFetch(t_GBufferGBufferA, pixelPos, 0);
+    vec4 GBufferC = texelFetch(t_GBufferGBufferC, pixelPos, 0);
+
+    vec3 normal = GBufferA.xyz;
+    float roughness = GBufferA.w;
+    vec3 base_color = GBufferC.xyz;
+    float metallic = GBufferC.w;
+
+    // \[Bhatia 2017\] [Saurabh Bhatia. "glTF 2.0: PBR Materials." GTC 2017.](https://www.khronos.org/assets/uploads/developers/library/2017-gtc/glTF-2.0-and-PBR-GTC_May17.pdf)
+    vec3 specular_color_dielectric = vec3(0.04, 0.04, 0.04);
+    vec3 specular_color = mix(specular_color_dielectric, base_color, metallic);
+    vec3 diffuse_color = base_color - specular_color;
+
     float z = texelFetch(t_GBufferDepth, pixelPos, 0).x;
     z = z * 2 - 1;
     
-    vec4 worldPos = vec4(v_clipSpacePos.xy, z, 1) * g_ViewProjMatrixInv;
-    worldPos.xyz /= worldPos.w;
+    vec4 worldPosV4 = vec4(v_clipSpacePos.xy, z, 1) * g_ViewProjMatrixInv;
+    vec3 worldPos = worldPosV4.xyz / worldPosV4.w;
 
-    float shadow = GetShadow(worldPos.xyz);
-    float NdotL = clamp(-dot(normal.xyz, g_LightDirection.xyz), 0.0, 1.0);
+    vec4 indirectDiffuse = bool(g_EnableIndirectDiffuse) ? texelFetch(t_IndirectDiffuse, pixelPos, 0) : vec4(0);
+    vec3 indirectSpecular = bool(g_EnableIndirectSpecular) ? texelFetch(t_IndirectSpecular, pixelPos, 0).rgb : vec3(0);
 
-    vec3 result = albedo.rgb * (g_LightColor.rgb * (shadow * NdotL) + mix(g_AmbientColor.rgb, indirectDiffuse.rgb, indirectDiffuse.a)) 
-                  + albedo.a * indirectSpecular.rgb;
+    vec3 radiance = vec3(0.0, 0.0, 0.0);
 
-    result = ConvertToLDR(result);
+    vec3 light_direction = normalize(g_LightPos.xyz - worldPos.xyz);
+    float NdotL = dot(normal, light_direction);
+    if (NdotL > 0.0)
+    {
+        float shadow = GetShadow(worldPos);
+        radiance += diffuse_color * g_LightColor.rgb * shadow * NdotL;
+    }
 
-    f_color = vec4(result, 1);
+    radiance += diffuse_color * mix(g_AmbientColor.rgb, indirectDiffuse.rgb, indirectDiffuse.a);
+    radiance += roughness * indirectSpecular.rgb;
+
+    f_color =  vec4(ConvertToLDR(radiance), 1.0);
 })";

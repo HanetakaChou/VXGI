@@ -10,7 +10,6 @@
 
 #include "SceneRenderer.h"
 #include "Camera.h"
-#include "SDKmisc.h"
 #include <AntTweakBar.h>
 
 #if USE_D3D11
@@ -46,15 +45,22 @@ VXGI::IGlobalIllumination *g_pGI = NULL;
 VXGI::IShaderCompiler *g_pGICompiler = NULL;
 VXGI::IViewTracer *g_pGITracer = NULL;
 
-static float g_fCameraClipNear = 1.0f;
-static float g_fCameraClipFar = 10000.0f;
-static float g_fClipmapRange = 512.0f;
+static float g_fCameraFOV = 1.0247777777F; // (static_cast<double>(XM_PIDIV2) - std::atan(1.7777777)) * 2.0
+static float g_fCameraAspectRatio = 1.7777777F;
+static float g_fCameraClipNear = 1.0F;
+static float g_fCameraClipFar = 1000.0F;
+static float g_fLightCameraFOV = XM_PI * 0.75F;
+static float g_fLightCameraAspectRatio = 1.0F;
+static float g_fLightCameraClipNear = 0.07F;
+static float g_fLightCameraClipFar = 777.0F;
+static float g_fVoxelSize = 1.0F;
+static int g_nMapSize = 128;
+static float g_fClipmapRange = g_fVoxelSize * float(g_nMapSize) * 0.5F;
 static float g_fAmbientScale = 0.0f;
 static float g_fDiffuseScale = 1.0f;
 static float g_fSpecularScale = 1.0f;
 static bool g_bEnableMultiBounce = true;
 static float g_fMultiBounceScale = 1.0f;
-static float g_fLightSize = 2500.0f;
 static bool g_bEnableGI = true;
 static bool g_bRenderHUD = true;
 static int g_iDebugLevel = 0;
@@ -230,33 +236,6 @@ class MainVisualController : public IVisualController
 {
     virtual LRESULT MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override
     {
-        g_LightCamera.HandleMessages(hWnd, uMsg, wParam, lParam);
-        g_Camera.HandleMessages(hWnd, uMsg, wParam, lParam);
-
-        if (uMsg == WM_KEYDOWN)
-        {
-            int iKeyPressed = static_cast<int>(wParam);
-
-            switch (iKeyPressed)
-            {
-            case VK_TAB:
-                g_bRenderHUD = !g_bRenderHUD;
-                return 0;
-                break;
-
-            case VK_SPACE:
-                g_DebugRenderMode = VXGI::DebugRenderMode::DISABLED;
-                return 0;
-                break;
-            }
-
-            if (g_DebugRenderMode != VXGI::DebugRenderMode::DISABLED && iKeyPressed >= '1' && iKeyPressed <= '9')
-            {
-                g_iDebugLevel = iKeyPressed - '1';
-                return 0;
-            }
-        }
-
         return 1;
     }
 
@@ -264,9 +243,6 @@ class MainVisualController : public IVisualController
     {
         g_Camera.FrameMove((float)fElapsedTimeSeconds);
         g_LightCamera.FrameMove((float)fElapsedTimeSeconds);
-
-        XMVECTOR lightDir = g_LightCamera.GetLookAtPt() - g_LightCamera.GetEyePt();
-        g_pSceneRenderer->SetLightDirection(VXGI::Vector3f(lightDir.m128_f32));
     }
 
     void SetVoxelizationParameters()
@@ -275,7 +251,7 @@ class MainVisualController : public IVisualController
 
         VXGI::VoxelizationParameters voxelizationParams;
         voxelizationParams.opacityDirectionCount = VXGI::OpacityDirections::THREE_DIMENSIONAL;
-        voxelizationParams.mapSize = 128;
+        voxelizationParams.mapSize = g_nMapSize;
         voxelizationParams.enableMultiBounce = g_bEnableMultiBounce;
         // The **VXGI::VoxelizationParameters::persistentVoxelData** is always set to **false** in the **NVIDIA Unreal Engine 4 Fork**.
         voxelizationParams.persistentVoxelData = false;
@@ -322,7 +298,10 @@ class MainVisualController : public IVisualController
 
             // Render the shadow map before calling g_pGI->updateGlobalIllumination
             // because that function will voxelize the scene using the shadow map
-            g_pSceneRenderer->RenderShadowMap(VXGI::Vector3f(0.f), g_fLightSize);
+            XMVECTOR lightPos = g_LightCamera.GetEyePt();
+            XMMATRIX lightViewMatrix = g_LightCamera.GetViewMatrix();
+            XMMATRIX lightProjMatrix = g_LightCamera.GetProjMatrix();
+            g_pSceneRenderer->RenderShadowMap(*reinterpret_cast<VXGI::Vector4f*>(&lightPos), *reinterpret_cast<VXGI::Matrix4f*>(&lightViewMatrix), *reinterpret_cast<VXGI::Matrix4f*>(&lightProjMatrix));
 
             g_pRendererInterface->debugEndEvent();
         }
@@ -512,11 +491,7 @@ class MainVisualController : public IVisualController
         if (FAILED(CreateVXGIObject()))
             return E_FAIL;
 
-        char strFileName[512];
-        if (FAILED(DXUTFindDXSDKMediaFileCch(strFileName, 512, "Sponza\\SponzaNoFlag.obj")))
-            return E_FAIL;
-
-        if (FAILED(g_pSceneRenderer->LoadMesh(strFileName)))
+        if (FAILED(g_pSceneRenderer->LoadMesh("Sponza\\SponzaNoFlag.obj")))
             return E_FAIL;
 
         if (FAILED(g_pSceneRenderer->AllocateResources(g_pGI, g_pGICompiler)))
@@ -559,13 +534,10 @@ class MainVisualController : public IVisualController
         g_pSceneRenderer->AllocateViewDependentResources(width, height, sampleCount);
 
         // Setup the camera's projection parameters
-        float fAspectRatio = width / (FLOAT)height;
-        g_Camera.SetProjParams(XM_PIDIV4, fAspectRatio, g_fCameraClipNear, g_fCameraClipFar);
+        g_Camera.SetProjParams(g_fCameraFOV, g_fCameraAspectRatio, g_fCameraClipNear, g_fCameraClipFar);
 
         // Setup the light camera's projection params
-        g_LightCamera.SetProjParams(XM_PIDIV4, 1.0f, g_fCameraClipNear, g_fCameraClipFar);
-        g_LightCamera.SetWindow(width, height);
-        g_LightCamera.SetButtonMasks(MOUSE_RIGHT_BUTTON, MOUSE_WHEEL, MOUSE_RIGHT_BUTTON);
+        g_LightCamera.SetProjParams(g_fLightCameraFOV, g_fLightCameraAspectRatio, g_fLightCameraClipNear, g_fLightCameraClipFar);
     }
 };
 
@@ -606,16 +578,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         return 1;
     }
 
-    XMVECTOR eyePt = XMVectorSet(0.0f, 200.0f, 0.0f, 0);
-    XMVECTOR lookAtPt = XMVectorSet(-100.0f, 200.0f, 0.0f, 0);
-    g_Camera.SetViewParams(eyePt, lookAtPt);
-    g_Camera.SetScalers(0.005f, 500.0f);
-    g_Camera.SetRotateButtons(true, false, false, false);
+    XMVECTOR eyePt = XMVectorSet(0.0F, 100.F, 32.0F, 0.0F);
+    XMVECTOR lookAtPt = XMVectorSet(0.0F, 0.0F, 32.0F, 0.0F);
+    XMVECTOR up = XMVectorSet(0.0F, 0.0F, 1.0F, 0.0F);
+    g_Camera.SetViewParams(eyePt, lookAtPt, up);
+    g_Camera.SetProjParams(g_fCameraFOV, g_fCameraAspectRatio, g_fCameraClipNear, g_fCameraClipFar);
 
-    eyePt = XMVectorSet(20.0f, 30.0f, -2.0f, 0);
-    lookAtPt = XMVectorSet(0, 0, 0, 0);
-    g_LightCamera.SetViewParams(eyePt, lookAtPt);
-    g_LightCamera.SetScalers(0.00025f, 100.0f);
+    eyePt = XMVectorSet(0.0F, 0.0F, 66.0F, 0.0F);
+    lookAtPt = XMVectorSet(0.0F, 0.0F, 0.0F, 0.0F);
+    up = XMVectorSet(1.0F, 0.0F, 0.0F, 0.0F);
+    g_LightCamera.SetViewParams(eyePt, lookAtPt, up);
+    g_LightCamera.SetProjParams(g_fLightCameraFOV, g_fLightCameraAspectRatio, g_fLightCameraClipNear, g_fLightCameraClipFar);
 
     if (g_bInitialized)
         g_DeviceManager->MessageLoop();

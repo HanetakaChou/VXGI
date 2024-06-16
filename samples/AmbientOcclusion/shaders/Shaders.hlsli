@@ -15,19 +15,19 @@ cbuffer GlobalConstants : register(b0)
     float4x4 g_ViewProjMatrix;
 }
 
+cbuffer MaterialConstants : register(b1)
+{
+    float4 g_BaseColor;
+    float g_Metallic;
+    float g_Roughness;
+};
+
 struct PS_Input
 {
     float4 position : SV_Position;
-    float2 texCoord : TEXCOORD;
     float3 normal   : NORMAL;
-    float3 tangent  : TANGENT;
-    float3 binormal : BINORMAL;
     float3 positionWS : WSPOSITION;
 };
-
-Texture2D DiffuseTexture    : register(t0);
-Texture2D SpecularTexture   : register(t1);
-Texture2D NormalTexture     : register(t2);
 
 SamplerState DefaultSampler : register(s0);
 
@@ -35,22 +35,17 @@ struct VS_Input
 {
     float3 position : POSITION;
     float3 normal   : NORMAL;
-    float2 texCoord : TEXCOORD;
-    float3 tangent  : TANGENT;
-    float3 binormal : BINORMAL;
 };
 
 PS_Input DefaultVS(VS_Input input)
 {
     PS_Input output;
 
-    output.position = mul(float4(input.position.xyz, 1.0f), g_ViewProjMatrix);
-    output.positionWS = input.position.xyz;
+    float4 worldPos = float4(input.position.xyz, 1.0f);
+    output.position = mul(worldPos, g_ViewProjMatrix);
+    output.positionWS = worldPos.xyz;
 
-    output.texCoord = input.texCoord;
     output.normal = input.normal;
-    output.tangent = input.tangent;
-    output.binormal = input.binormal;
 
     return output;
 } 
@@ -62,31 +57,20 @@ float4 VoxelizationVS(float3 position: POSITION): SV_Position
 
 struct PS_Attributes
 {
-    float4 albedo : SV_Target0;
-    float4 normal : SV_Target1;
+    float4 GBufferA : SV_Target1;
+    float4 GBufferC : SV_Target0;
 };
 
 PS_Attributes AttributesPS(PS_Input input)
 {
-    PS_Attributes output;
-
-    float4 diffuseColor;
-    diffuseColor.rgb = DiffuseTexture.Sample(DefaultSampler, input.texCoord).rgb;
-    diffuseColor.a = SpecularTexture.Sample(DefaultSampler, input.texCoord).r;
-    float3 pixelNormal = NormalTexture.Sample(DefaultSampler, input.texCoord).xyz;
-
     float3 normal = normalize(input.normal);
+    float roughness = g_Roughness;
+    float3 base_color = g_BaseColor.xyz;
+    float metallic = g_Metallic;
 
-    if(pixelNormal.z)
-    {
-        float3 tangent = normalize(input.tangent);
-        float3 binormal = normalize(input.binormal);
-        float3x3 TangentMatrix = float3x3(tangent, binormal, normal);
-        normal = normalize(mul(pixelNormal * 2 - 1, TangentMatrix));
-    }
-
-    output.albedo = diffuseColor;
-    output.normal = float4(normal, 0);
+    PS_Attributes output;
+    output.GBufferA = float4(normal, roughness);
+    output.GBufferC = float4(base_color, metallic);
 
     return output;
 }
@@ -119,12 +103,16 @@ float4 BlitPS(FullScreenQuadOutput IN): SV_Target
     return t_SourceTexture[IN.position.xy];
 }
 
-Texture2D t_AmbientOcclusion : register(t0);
-Texture2D t_GBufferAlbedo : register(t1);
+Texture2D t_VXAO : register(t0);
+Texture2D t_GBufferGBufferC : register(t1);
 
 float4 CompositingPS(FullScreenQuadOutput IN): SV_Target
 {
-    float4 ao = t_AmbientOcclusion[IN.position.xy];
-    float4 albedo = t_GBufferAlbedo[IN.position.xy];
-    return ao * albedo;
+    float vxao = t_VXAO[IN.position.xy].x;
+    float ao = vxao;
+
+    float4 GBufferC = t_GBufferGBufferC[IN.position.xy];
+    float3 base_color = GBufferC.xyz;
+
+    return float4(base_color * ao, 1.0);
 }

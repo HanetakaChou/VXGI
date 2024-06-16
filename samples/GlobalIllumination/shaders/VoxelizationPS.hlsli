@@ -11,10 +11,7 @@
 char const g_VoxelizationPS[] = R"(struct PSInput 
 {
     float4 position : SV_Position;
-    float2 texCoord : TEXCOORD;
     float3 normal   : NORMAL;
-    float3 tangent  : TANGENT;
-    float3 binormal : BINORMAL;
     float3 positionWS : WSPOSITION;
     VxgiVoxelizationPSInputData vxgiData;
 };
@@ -24,24 +21,29 @@ cbuffer GlobalConstants : register(b0)
     float4x4 g_ViewProjMatrix;
     float4x4 g_ViewProjMatrixInv;
     float4x4 g_LightViewProjMatrix;
-    float4 g_LightDirection;
-    float4 g_DiffuseColor;
+    float4 g_LightPos;
     float4 g_LightColor;
     float g_rShadowMapSize;
     uint g_EnableIndirectDiffuse;
     uint g_EnableIndirectSpecular;
 };
 
-Texture2D<float4> t_DiffuseColor    : register(t0);
+cbuffer MaterialConstants : register(b1)
+{
+    float4 g_BaseColor;
+    float g_Metallic;
+    float g_Roughness;
+};
+
 Texture2D t_ShadowMap               : register(t1);
 SamplerState g_SamplerLinearWrap    : register(s0);
 SamplerComparisonState g_SamplerComparison : register(s1);
 
 static const float PI = 3.14159265;
 
-float GetShadowFast(float3 fragmentPos)
+float GetShadowFast(float3 worldPos)
 {
-    float4 clipPos = mul(float4(fragmentPos, 1.0f), g_LightViewProjMatrix);
+    float4 clipPos = mul(float4(worldPos, 1.0f), g_LightViewProjMatrix);
 
     // Early out
     if (abs(clipPos.x) > clipPos.w || abs(clipPos.y) > clipPos.w || clipPos.z <= 0)
@@ -63,26 +65,25 @@ void main(PSInput IN)
         float3 worldPos = IN.positionWS.xyz;
         float3 normal = normalize(IN.normal.xyz);
 
+        // \[Bhatia 2017\] [Saurabh Bhatia. "glTF 2.0: PBR Materials." GTC 2017.](https://www.khronos.org/assets/uploads/developers/library/2017-gtc/glTF-2.0-and-PBR-GTC_May17.pdf)
+        float3 specular_color_dielectric = float3(0.04, 0.04, 0.04);
+        float3 specular_color = lerp(specular_color_dielectric, g_BaseColor.xyz, g_Metallic);
+        float3 diffuse_color = g_BaseColor.xyz - specular_color;
 
-        float3 albedo = g_DiffuseColor.rgb;
+        float3 radiance = float3(0.0, 0.0, 0.0);
 
-        if(g_DiffuseColor.a > 0)
-            albedo = t_DiffuseColor.Sample(g_SamplerLinearWrap, IN.texCoord.xy).rgb;
-
-        float NdotL = saturate(-dot(normal, g_LightDirection.xyz));
-
-        float3 radiosity = 0;
-
-        if(NdotL > 0)
+        float3 light_direction = normalize(g_LightPos.xyz - worldPos);
+        float NdotL = dot(normal, light_direction);
+        [branch]
+        if(NdotL > 0.0)
         {
             float shadow = GetShadowFast(worldPos);
-
-            radiosity += albedo.rgb * g_LightColor.rgb * (NdotL * shadow);
+            radiance += diffuse_color * g_LightColor.rgb * (NdotL * shadow);
         }
 
-        radiosity += albedo.rgb * VxgiGetIndirectIrradiance(worldPos, normal) / PI;
+        radiance += diffuse_color * VxgiGetIndirectIrradiance(worldPos, normal) / PI;
 
-        VxgiStoreVoxelizationData(IN.vxgiData, radiosity);
+        VxgiStoreVoxelizationData(IN.vxgiData, radiance);
     }
     else
     {

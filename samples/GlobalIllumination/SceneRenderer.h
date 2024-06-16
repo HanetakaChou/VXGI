@@ -21,8 +21,7 @@ __declspec(align(16)) struct GlobalConstants
     VXGI::Matrix4f viewProjMatrix;
     VXGI::Matrix4f viewProjMatrixInv;
     VXGI::Matrix4f lightMatrix;
-    VXGI::Vector4f lightDirection;
-    VXGI::Vector4f diffuseColor;
+    VXGI::Vector4f lightPos;
     VXGI::Vector4f lightColor;
     VXGI::Vector4f ambientColor;
     float rShadowMapSize;
@@ -32,15 +31,9 @@ __declspec(align(16)) struct GlobalConstants
 
 struct MeshMaterialInfo : public VXGI::MaterialInfo
 {
-    NVRHI::TextureHandle diffuseTexture;
-    NVRHI::TextureHandle specularTexture;
-    NVRHI::TextureHandle normalsTexture;
-    VXGI::Vector3f diffuseColor;
+    NVRHI::ConstantBufferHandle materialBuffer;
 
-    MeshMaterialInfo() : diffuseTexture(NULL),
-                         specularTexture(NULL),
-                         normalsTexture(NULL),
-                         diffuseColor(0.f)
+    MeshMaterialInfo() : materialBuffer(NULL)
     {
     }
 };
@@ -70,7 +63,7 @@ private:
     UINT m_Height;
     UINT m_SampleCount;
 
-    VXGI::Vector3f m_LightDirection;
+    VXGI::Vector3f m_LightPos;
     VXGI::Matrix4f m_LightViewMatrix;
     VXGI::Matrix4f m_LightProjMatrix;
     VXGI::Matrix4f m_LightViewProjMatrix;
@@ -98,8 +91,7 @@ public:
 
     void RenderToGBuffer(const VXGI::Matrix4f &viewProjMatrix);
 
-    void SetLightDirection(VXGI::Vector3f direction);
-    void RenderShadowMap(const VXGI::Vector3f cameraPosition, float lightSize);
+    void RenderShadowMap(const VXGI::Vector3f &lightPos, const VXGI::Matrix4f &lightViewMatrix, const VXGI::Matrix4f &lightProjMatrix);
 
     void GetMaterialInfo(UINT meshID, OUT MeshMaterialInfo &materialInfo);
 
